@@ -20,6 +20,10 @@ import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.util.Properties;
 
+import org.apache.log4j.BasicConfigurator;
+import org.apache.log4j.Level;
+import org.apache.log4j.Logger;
+
 import com.amazonaws.ClientConfiguration;
 import com.amazonaws.auth.AWSCredentials;
 import com.amazonaws.auth.BasicAWSCredentials;
@@ -65,6 +69,9 @@ public class ConfigHelper {
     }
 
     public static ConfigHelper createConfig() throws IOException, IllegalArgumentException {
+
+        BasicConfigurator.configure();
+        Logger.getRootLogger().setLevel(Level.INFO);
 
         ConfigHelper configHelper = null;
 
