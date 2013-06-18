@@ -79,17 +79,21 @@ public class ActivityHost {
         String commonTaskList = configHelper.getValueFromConfig(ImageProcessingConfigKeys.ACTIVITY_WORKER_COMMON_TASKLIST);
         
     	// Create activity implementations
+	/*
     	SimpleStoreActivitiesS3Impl storeActivityImpl = new SimpleStoreActivitiesS3Impl(localFolder, getHostName());
     	storeActivityImpl.setS3Client(s3Client);
-    	ImageProcessingActivitiesImpl processorActivityImpl = new ImageProcessingActivitiesImpl(localFolder);
+	*/
+    	RnaseqPipelineActivitiesImpl rnaseqPipelineImpl = new RnaseqPipelineActivitiesImpl();
     	
     	// Start executor to poll the common task list
+	/*
     	executorForCommonTaskList = createExecutor(commonTaskList, storeActivityImpl);
     	executorForCommonTaskList.start();
         System.out.println("Executor Host Service Started for Task List: " + commonTaskList);    	
+	*/
     	
     	// Start executor to poll the host specific task list
-    	executorForHostSpecificTaskList = createExecutor(getHostName(), storeActivityImpl, processorActivityImpl);
+    	executorForHostSpecificTaskList = createExecutor(getHostName(), rnaseqPipelineImpl);
     	executorForHostSpecificTaskList.start();
         System.out.println("Executor Host Service Started for Task List: " + getHostName());    	
     	

@@ -38,17 +38,20 @@ public class WorkflowExecutionStarter {
         
         // Start Workflow instance
         String executionId = configHelper.getValueFromConfig(ImageProcessingConfigKeys.WORKFLOW_EXECUTION_ID_KEY) + UUID.randomUUID();
+	/*
         String sourceBucketName = configHelper.getValueFromConfig(ImageProcessingConfigKeys.WORKFLOW_INPUT_SOURCEBUCKETNAME_KEY);
         String sourceFilename = configHelper.getValueFromConfig(ImageProcessingConfigKeys.WORKFLOW_INPUT_SOURCEFILENAME_KEY);
         String targetBucketName = configHelper.getValueFromConfig(ImageProcessingConfigKeys.WORKFLOW_INPUT_BUCKET_KEY);
         String imageProcessingOptionString = configHelper.getValueFromConfig(ImageProcessingConfigKeys.WORKFLOW_INPUT_IMAGEPROCESSINGOPTION_KEY);
         
         ImageProcessingOption imageProcessingOption = ImageProcessingOption.valueOf(imageProcessingOptionString);
-        
+        */
+
 	// Create workflow via call to factory:
-        ImageProcessingWorkflowClientExternalFactory clientFactory = new ImageProcessingWorkflowClientExternalFactoryImpl(swfService, domain);
-        ImageProcessingWorkflowClientExternal workflow = clientFactory.getClient(executionId);
-        workflow.processImage(sourceBucketName, sourceFilename, targetBucketName, imageProcessingOption);
+        RnaseqPipelineWorkflowClientExternalFactory clientFactory = new RnaseqPipelineWorkflowClientExternalFactoryImpl(swfService, domain);
+        RnaseqPipelineWorkflowClientExternal workflow = clientFactory.getClient(executionId);
+	System.out.println("about to call wf.rnaseqPipeline(1047-COPD.10K)");
+        workflow.rnaseqPipeline("1047-COPD.10K");
         System.exit(0);
     }    
 }
