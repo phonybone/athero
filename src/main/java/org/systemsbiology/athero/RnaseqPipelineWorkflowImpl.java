@@ -59,12 +59,15 @@ public class RnaseqPipelineWorkflowImpl implements RnaseqPipelineWorkflow {
 	new TryFinally() {
 	    @Override
 		protected void doTry() throws Throwable {
+		System.out.println("wf started("+data_basename+")");
 		rp_ac.ping("this is message 1");
 		rp_ac.ping("this is message 2");
+		System.out.println("wf done");
 	    }
 
 	    @Override
 		protected void doFinally() throws Throwable {
+		System.out.println("something bad happened...");
 	    }
 	};
     }
