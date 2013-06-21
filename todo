@@ -1,0 +1,17 @@
+figure out how to package mvn-run as a self-contained script (ie,
+package all jars together and set classpath) (or run from a web
+server) 
+see http://stackoverflow.com/questions/5107988/how-to-tell-maven-to-build-an-executable-jar
+
+re-examine logging, properties utilities.
+
+refactor ActivitiesHost and WorkflowHost, and maybe WorkflowExecuter
+as well.
+
+Implement actual script invokation
+
+Design actual interface; how much in config files, how much in
+command-line params?
+
+figure out how to test workflows using junit spinoff
+

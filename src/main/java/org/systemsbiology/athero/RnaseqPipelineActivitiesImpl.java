@@ -1,41 +1,45 @@
 package org.systemsbiology.athero;
 
-import java.io.File;
+import java.io.*;
 import java.io.IOException;
 
+import org.systemsbiology.ScriptLauncher; // fixme: this will be replaced with Bowtie2Launcher
+import org.systemsbiology.athero.Bowtie2Launcher;
 
-/**
- * This implementation of FileProcessingActivities converts the file
- */
 public class RnaseqPipelineActivitiesImpl implements RnaseqPipelineActivities{
 	
-    /*This constructor will create a implementation of RnaseqPipelineActrivities
-     * @param 
-     */
     public RnaseqPipelineActivitiesImpl() {
     }
+
+    @Override
+	public void ping(String msg) {
+	System.out.println("ping! " + msg);
+    }
                 
-    /**
-     * This is the Activity implementation that does the convert of a file to Grayscale
-     * @param inputFileName
-     *          Name of file to convert
-     * @param targetFileName
-     *          Filename after convert
-     */	
     @Override    
 	public void call_bowtie2(String data_basename, 
 				 String bt2_index,
 				 String bt2_index_dir) throws IOException {
-	System.out.println("call_bowtie2 called");
+	//	System.out.println("call_bowtie2 called");
+	System.out.println("call_bowtie2 called; launching pickle_test.py");
+	String cmd[]={"python", "/home/ISB/vcassen/Dropbox/sandbox/python/pickle_test.py"};
+	ScriptLauncher sl=new ScriptLauncher(cmd);
+	int rc=sl.run();
+	
+	// Read the output of the command:
+	Reader r=new InputStreamReader(sl.output());
+	StringBuilder s = new StringBuilder();
+	char[] buf=new char[2048];
+	while (true) {
+	    int n=r.read(buf);
+	    if (n<0) break;
+	    s.append(buf);
+	}
+	System.out.println(s.toString());
+
+	System.out.println("pickle_test: rc="+rc);
     }
 	
-    /**
-     * This is the Activity implementation that does the convert of a file to Sepia
-     * @param inputFileName
-     *          Name of file to convert
-     * @param targetFileName
-     *          Filename after convert
-     */	
     @Override
 	public void call_rnaseq_count(String inputFileName, 
 				      String ucsc2ll) throws IOException {

@@ -20,6 +20,13 @@ import com.amazonaws.services.simpleworkflow.flow.common.FlowConstants;
 			     defaultTaskStartToCloseTimeoutSeconds = 300)
     public interface RnaseqPipelineActivities {
 	
+	@Activity(name = "ping", version = "1.0")
+	@ExponentialRetry(
+			  initialRetryIntervalSeconds=10,
+			  backoffCoefficient=1,
+			  maximumAttempts=5)
+	    public void ping(String msg);
+
 	@Activity(name = "bowtie2", version = "1.0")
 	@ExponentialRetry(
 			  initialRetryIntervalSeconds=10,
