@@ -23,6 +23,7 @@ public class RnaseqPipelineWorkflowImpl implements RnaseqPipelineWorkflow {
 	// Was used to determine a filename.
 	// todo: look up DecisionContext and WorkflowContext
 	workflowContext = (new DecisionContextProviderImpl()).getDecisionContext().getWorkflowContext();
+	System.out.println("rp_wfimpl created on tasklist "+workflowContext.getTaskList());
     }
 	
 
@@ -66,8 +67,12 @@ public class RnaseqPipelineWorkflowImpl implements RnaseqPipelineWorkflow {
 	    }
 
 	    @Override
+		protected void doCatch(Throwable e) throws Throwable {
+		System.out.println("something bad happened: "+e.getMessage());
+	    }
+
+	    @Override
 		protected void doFinally() throws Throwable {
-		System.out.println("something bad happened...");
 	    }
 	};
     }

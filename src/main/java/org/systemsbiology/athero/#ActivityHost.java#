@@ -82,12 +82,13 @@ public class ActivityHost {
 
     	RnaseqPipelineActivitiesImpl rnaseqPipelineImpl = new RnaseqPipelineActivitiesImpl();
     	
-	/* Deleted call to createExecutor with storeActivityImpl (common task list) */
+	/* Deleted call to createExecutor with storeActivityImpl (common tasklist) */
     	
-    	// Start executor to poll the host specific task list
-    	executorForHostSpecificTaskList = createExecutor(getHostName(), rnaseqPipelineImpl);
+    	// Start executor to poll the host specific tasklist
+	String tasklist=getHostName();
+    	executorForHostSpecificTaskList = createExecutor(tasklist, rnaseqPipelineImpl);
     	executorForHostSpecificTaskList.start();
-        System.out.println("Executor Host Service Started for Task List: " + getHostName());    	
+        System.out.println("Executor Host Service Started for Task List: " + tasklist);    	
     	
 	}
 
