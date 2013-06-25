@@ -27,6 +27,6 @@ import com.amazonaws.services.simpleworkflow.flow.annotations.WorkflowRegistrati
 @WorkflowRegistrationOptions(defaultExecutionStartToCloseTimeoutSeconds = 600, 
 			     defaultTaskStartToCloseTimeoutSeconds = 300)
 public interface RnaseqPipelineWorkflow {
-@Execute(name = "ProcessFile", version = "1.0")
+@Execute(name = "rnaseqPipeline_wf", version = "1.0")
     public void rnaseqPipeline(final String data_basename) throws IOException;
 }
