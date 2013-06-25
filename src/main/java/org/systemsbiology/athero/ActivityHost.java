@@ -75,7 +75,6 @@ public class ActivityHost {
     }
     
     private void startExecutors(ConfigHelper configHelper) throws Exception {   
-    	String localFolder = configHelper.getValueFromConfig(ImageProcessingConfigKeys.ACTIVITY_WORKER_LOCALFOLDER);
         String commonTaskList = configHelper.getValueFromConfig(ImageProcessingConfigKeys.ACTIVITY_WORKER_COMMON_TASKLIST);
         
     	// Create activity implementations
