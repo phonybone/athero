@@ -32,9 +32,8 @@ import com.amazonaws.services.simpleworkflow.flow.common.FlowConstants;
 			  initialRetryIntervalSeconds=10,
 			  backoffCoefficient=1,
 			  maximumAttempts=5)
-	    public void call_bowtie2(String data_basename, 
-				     String bt2_index,
-				     String bt2_index_dir) throws IOException;	
+	    public void call_bowtie2(final String data_basename, 
+				     final String bt2_index) throws IOException;
 	
 	@Activity(name = "rnaseq_count.py", version = "1.0")
 	@ExponentialRetry(

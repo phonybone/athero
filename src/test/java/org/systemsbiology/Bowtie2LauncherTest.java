@@ -22,14 +22,14 @@ public class Bowtie2LauncherTest extends TestCase {
 
     public void testConstructor() {
 	try {
-	    Bowtie2Launcher b2l=new Bowtie2Launcher("buffy");
+	    Bowtie2Launcher b2l=new Bowtie2Launcher("1047-COPD.10K", "hg19", "buffy");
 	    assertTrue(true);
 	} catch (Exception e) {
 	    fail("Bowtie2Launcher failed");
 	}
 
 	try {
-	    Bowtie2Launcher b2l=new Bowtie2Launcher("snipe");
+	    Bowtie2Launcher b2l=new Bowtie2Launcher("doesn't", "matter", "snipe");
 	    fail("Bowtie2Launcher failed");
 	} catch (Exception e) {
 	    String expected="no info found for 'snipe' found in props file";
@@ -42,7 +42,7 @@ public class Bowtie2LauncherTest extends TestCase {
     }
 
     public void test_build_cmdUsingBuffy() {
-	Bowtie2Launcher b2l=new Bowtie2Launcher("buffy");
+	Bowtie2Launcher b2l=new Bowtie2Launcher("1047-COPD.10K", "hg19", "buffy");
 	Class params[]=new Class[2];
 	params[0]=String.class;
 	params[1]=String.class;
@@ -53,8 +53,10 @@ public class Bowtie2LauncherTest extends TestCase {
 	    String[] cmdl=(String[])_build_cmd.invoke(b2l, 
 						      new String("1047-COPD.10K"),
 						      new String("hg19"));
-	    String cmd=StringUtils.join(cmdl, " ");
+	    //	    String cmd=StringUtils.join(cmdl, " ");
 	    String expected="/local/bin/bowtie2 /local/src/bowtie2-2.0.5/indexes/hg19 -p 16 -1 1047-COPD.10K_1.fastq -2 1047-COPD.10K_2.fastq -S 1047-COPD.10K.bt2.sam";
+	    String cmd=b2l.asString();
+	    System.out.println("b2l.cmd: "+cmd);
 	    assertEquals(cmd, expected);
 	} catch (Exception e) {
 	    System.out.println("caught '"+e.getMessage()+"'");
