@@ -81,8 +81,10 @@ public class ActivityHost {
 	/* Deleted other ActivityImplementation, ie SimpleStore*/
 
     	RnaseqPipelineActivitiesImpl rnaseqPipelineImpl = new RnaseqPipelineActivitiesImpl();
-    	
-	/* Deleted call to createExecutor with storeActivityImpl (common task list) */
+	PingActivitiesImpl pingActivitiesImpl = new PingActivitiesImpl();
+	executorForCommonTaskList=createExecutor(commonTaskList, 
+						 pingActivitiesImpl, rnaseqPipelineImpl);
+
     	
     	// Start executor to poll the host specific task list
     	executorForHostSpecificTaskList = createExecutor(getHostName(), rnaseqPipelineImpl);

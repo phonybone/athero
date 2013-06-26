@@ -8,13 +8,17 @@ import java.io.*;
 import java.util.ArrayList;
 
 public class Bowtie2Launcher  {
+    // Why was this not a child of ScriptLauncher?  It's making it tough to
+    // get at sl.output() and sl.errors().
+
     private Host host;
 
     public Bowtie2Launcher() {
-	host=new Host();
+	host=new Host();	// localhost
     }
 
     public Bowtie2Launcher(final String hostname) {
+	// Not really sure we want this method...
 	host=new Host(hostname);
     }
 
