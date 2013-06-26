@@ -105,7 +105,7 @@ public class ActivityHost {
         executorForCommonTaskList.shutdownNow();
         executorForHostSpecificTaskList.shutdownNow();
         swfService.shutdown();
-        executorForCommonTaskList.awaitTermination(Long.MAX_VALUE, TimeUnit.DAYS);
+        executorForCommonTaskList.awaitTermination(Long.MAX_VALUE, TimeUnit.DAYS); // that's a long time to wait
         System.out.println("Executor Services Stopped...");
     }
     
@@ -146,3 +146,10 @@ public class ActivityHost {
     }
 
 }
+
+/*
+  Notes:
+  Want to refactor as much as possible:
+  Names of Activities classes (args to createExecutor)
+  Names of tasklists to listen for
+ */
