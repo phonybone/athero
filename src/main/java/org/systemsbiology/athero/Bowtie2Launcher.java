@@ -29,13 +29,6 @@ public class Bowtie2Launcher extends ScriptLauncher {
 	host=new Host(hostname);
     }
 
-    /*
-    public int run(final String data_basename, final String ref_index) {
-	String[] cmd=this._build_cmd(data_basename, ref_index);
-	ScriptLauncher sl=new ScriptLauncher(cmd);
-	return sl.run();
-    }
-    */
 
     protected String[] _build_cmd() {
 	ArrayList<String> cmdl=new ArrayList<String>();
