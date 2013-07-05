@@ -27,7 +27,7 @@ public class RnaseqPipelineWorkflowImpl implements RnaseqPipelineWorkflow {
     }
 	
 
-    /*
+
     @Override
 	public void rnaseqPipeline(final String data_basename) throws IOException {    	
     	// Settable to store the worker specific task list returned by the activity
@@ -40,12 +40,20 @@ public class RnaseqPipelineWorkflowImpl implements RnaseqPipelineWorkflow {
 		protected void doTry() throws Throwable {
 		// Call bowtie2
 		System.out.println("rpwi: about to call bowtie2");
-		rp_ac.call_bowtie2(data_basename, "hg_id", "bt2_index_dir");
+		Promise<String> activityWorkerTasklist=rp_ac.call_bowtie2(data_basename, "hg_id");
+		taskList.chain(activityWorkerTasklist);
 		System.out.println("rpwi: about to call rnaseq_count");
 
 		// Call rnaseq_count.py
-		rp_ac.call_rnaseq_count("inputFilename", "ucsc2ll");
-		System.out.println("rpwi: done");
+		/*
+		  Going to need to set the options structure, make sure activity hosts
+		  are listening on local taskList...
+
+		if (taskList.isReady()) {
+		    rp_ac.call_rnaseq_count("inputFilename", "ucsc2ll");
+		    System.out.println("rpwi: done");
+		}
+		*/
             }
 
             @Override
@@ -53,9 +61,11 @@ public class RnaseqPipelineWorkflowImpl implements RnaseqPipelineWorkflow {
             }
         };
     }
-    */
 
+
+    /*
     @Override
+    // Ping version
 	public void rnaseqPipeline(final String data_basename) throws IOException {
 	new TryFinally() {
 	    @Override
@@ -76,4 +86,5 @@ public class RnaseqPipelineWorkflowImpl implements RnaseqPipelineWorkflow {
 	    }
 	};
     }
+    */
 }

@@ -4,6 +4,7 @@ import java.io.*;
 import java.io.IOException;
 
 import org.systemsbiology.athero.Bowtie2Launcher;
+import org.systemsbiology.athero.Host;
 
 public class RnaseqPipelineActivitiesImpl implements RnaseqPipelineActivities{
 	
@@ -16,7 +17,7 @@ public class RnaseqPipelineActivitiesImpl implements RnaseqPipelineActivities{
     }
                 
     @Override    
-	public void call_bowtie2(final String data_basename, 
+	public String call_bowtie2(final String data_basename, 
 				 final String bt2_index) throws IOException {
 	//	System.out.println("call_bowtie2 called");
 	System.out.println("rp_ai: call_bowtie2 called");
@@ -24,17 +25,15 @@ public class RnaseqPipelineActivitiesImpl implements RnaseqPipelineActivities{
 	int rc=bt2_launcher.run();
 
 	// Read the output of the command:
-	Reader r=new InputStreamReader(bt2_launcher.output());
-	StringBuilder s = new StringBuilder();
-	char[] buf=new char[2048];
-	while (true) {
-	    int n=r.read(buf);
-	    if (n<0) break;
-	    s.append(buf);
-	}
-	System.out.println(s.toString());
+	// So this is blowing up because the output stream isn't yet established, and ScriptLauncher
+	// is throwing an error.
+	// Should run a test to see if it's just because the underlying script hasn't finished yet.
+	// ScriptLauncher uses Runtime.exec(), what are semantics???
+	String output=bt2_launcher.outputString();
+	System.out.println(output);
 
 	System.out.println("call_bowtie2: rc="+rc);
+	return new Host().getLocalName();
     }
 	
     @Override
