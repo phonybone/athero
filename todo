@@ -1,3 +1,9 @@
+5Jul13:
+Need to rework RnaseqPipelineWorkflowImpl; call to call_rnaseq_count
+is totally messed, we're probably going to need more arguments in the
+workflow constructor, or maybe do some filename manipulation.
+
+
 figure out how to package mvn-run as a self-contained script (ie,
 package all jars together and set classpath) (or run from a web
 server) 

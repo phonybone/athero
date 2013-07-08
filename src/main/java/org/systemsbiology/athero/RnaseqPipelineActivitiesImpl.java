@@ -16,31 +16,25 @@ public class RnaseqPipelineActivitiesImpl implements RnaseqPipelineActivities{
     }
                 
     @Override    
-	public void call_bowtie2(final String data_basename, 
-				 final String bt2_index) throws IOException {
-	//	System.out.println("call_bowtie2 called");
+	public String call_bowtie2(final String data_basename, 
+				   final String bt2_index,
+				   final String dir) throws IOException {
 	System.out.println("rp_ai: call_bowtie2 called");
-	Bowtie2Launcher bt2_launcher=new Bowtie2Launcher(data_basename, bt2_index);
+	Bowtie2Launcher bt2_launcher=new Bowtie2Launcher(data_basename, bt2_index, new File(dir));
+	System.out.println("rp_ai: cmd is "+bt2_launcher.asString());
 	int rc=bt2_launcher.run();
-
-	// Read the output of the command:
-	Reader r=new InputStreamReader(bt2_launcher.output());
-	StringBuilder s = new StringBuilder();
-	char[] buf=new char[2048];
-	while (true) {
-	    int n=r.read(buf);
-	    if (n<0) break;
-	    s.append(buf);
-	}
-	System.out.println(s.toString());
-
 	System.out.println("call_bowtie2: rc="+rc);
+	return new Host().getLocalName();
     }
 	
     @Override
-	public void call_rnaseq_count(String inputFileName, 
-				      String ucsc2ll) throws IOException {
-	System.out.println("rp_ai: call_rnaseq_count called");
-	//	String cmd[]={"
+	public void call_rnaseq_count(final String inputFileName, 
+				      final String ucsc2ll,
+				      final String dir) throws IOException {
+	System.out.println("rp_ai: call_rnaseq_count called (NYI)");
+	System.out.println("rp_ai: inputFileName is "+inputFileName);
+	System.out.println("rp_ai: ucsc2ll is "+ucsc2ll);
+	System.out.println("rp_ai: dir is "+dir);
+	
     }
 }

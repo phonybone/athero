@@ -89,11 +89,10 @@ public class ActivityHost {
     	// Start executor to poll the host specific task list
     	executorForHostSpecificTaskList = createExecutor(getHostName(), rnaseqPipelineImpl);
     	executorForHostSpecificTaskList.start();
-        System.out.println("Executor Host Service Started for Task List: " + getHostName());    	
-    	
-	}
-
+    }
+    
     private ActivityWorker createExecutor(String taskList, Object ...activityImplementations) throws Exception{        
+	System.out.println("Creating ActivityExecutor for tasklist "+taskList);
         ActivityWorker worker = new ActivityWorker(swfService, domain, taskList);
     	for (Object activityImplementation: activityImplementations) {
     	    worker.addActivitiesImplementation(activityImplementation);

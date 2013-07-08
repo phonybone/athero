@@ -11,46 +11,44 @@ import com.amazonaws.services.simpleworkflow.flow.core.Promise;
 import com.amazonaws.services.simpleworkflow.flow.core.Settable;
 import com.amazonaws.services.simpleworkflow.flow.core.TryCatchFinally;
 
-public class RnaseqPipelineWorkflowImpl implements RnaseqPipelineWorkflow {
-    private final RnaseqPipelineActivitiesClient rp_ac;
+public class SleepWorkflowImpl implements SleepWorkflow {
+    private final SleepActivitiesClient sleep_ac;
     private final WorkflowContext workflowContext;
 	
-    public RnaseqPipelineWorkflowImpl(){
+    public SleepWorkflowImpl(){
 	// Create activity clients
-	rp_ac = new RnaseqPipelineActivitiesClientImpl(); 
+	sleep_ac = new SleepActivitiesClientImpl(); 
 
 	// This is now obsolete, but not deleting it yet.  
 	// Was used to determine a filename.
 	// todo: look up DecisionContext and WorkflowContext
 	workflowContext = (new DecisionContextProviderImpl()).getDecisionContext().getWorkflowContext();
-	System.out.println("rp_wfimpl created on tasklist "+workflowContext.getTaskList());
+	System.out.println("sleep_wfimpl created on tasklist "+workflowContext.getTaskList());
     }
 	
 
     @Override
-	public void rnaseqPipeline(final String data_basename,
-				   final String bt2_index,
-				   final String dir) throws IOException {    	
+	public void sleep() throws IOException {    	
+			  
     	// Settable to store the worker specific task list returned by the activity
     	final Settable<String> taskList = new Settable<String>();
 
     	new TryCatchFinally() {
             @Override
 		protected void doTry() throws Throwable {
-		// Call bowtie2
-		System.out.println("rpwi: about to call call_bowtie2");
-		Promise<String> ac_tl=rp_ac.call_bowtie2(data_basename, bt2_index, dir);
+		// Call sleep1
+		System.out.println("rpwi: about to call sleep1");
+		Promise<String> ac_tl=sleep_ac.call_sleep1("sleep for 3 seconds", 3);
 		taskList.chain(ac_tl);
 
-		// Call rnaseq_count.py
+		// Call sleep2
 		if (taskList.isReady()) {
-		    System.out.println("rpwi: about to call rnaseq_count on tasklist="+taskList.get());
+		    System.out.println("rpwi: about to call sleep2 on tasklist="+taskList.get());
 		    ActivitySchedulingOptions options = new ActivitySchedulingOptions();
 		    options.withTaskList(taskList.get());
 		    
-		    // THIS IS WRONG
-		    Promise<Void> done=rp_ac.call_rnaseq_count("inputFilename", "ucsc2ll", dir, options);
-		    System.out.println("rpwi: done");
+		    Promise<Void> done=sleep_ac.call_sleep2("sleep for 5 seconds", 5, options);
+		    System.out.println("sleep2: done");
 		} else {
 		    System.out.println("taskList not yet ready");
 		}
@@ -70,28 +68,4 @@ public class RnaseqPipelineWorkflowImpl implements RnaseqPipelineWorkflow {
             }
         };
     }
-
-    /*
-    @Override
-	public void rnaseqPipeline(final String data_basename) throws IOException {
-	new TryFinally() {
-	    @Override
-		protected void doTry() throws Throwable {
-		System.out.println("wf started("+data_basename+")");
-		rp_ac.ping("this is message 1");
-		rp_ac.ping("this is message 2");
-		System.out.println("wf done");
-	    }
-
-	    @Override
-		protected void doCatch(Throwable e) throws Throwable {
-		System.out.println("something bad happened: "+e.getMessage());
-	    }
-
-	    @Override
-		protected void doFinally() throws Throwable {
-	    }
-	};
-    }
-    */
 }

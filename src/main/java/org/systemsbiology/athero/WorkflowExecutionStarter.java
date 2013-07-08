@@ -14,7 +14,14 @@ public class WorkflowExecutionStarter {
     private static String domain;
     
     public static void main(String[] args) throws Exception {
-    	
+	String usage="<prog> <data_basename> <dir>";
+    	if (args.length != 2) {
+	    System.out.println(usage);
+	    System.exit(1);
+	}
+	String data_basename=args[0];
+	String dir=args[1];
+
     	// Load configuration
     	ConfigHelper configHelper = ConfigHelper.createConfig();
         
@@ -31,7 +38,7 @@ public class WorkflowExecutionStarter {
         RnaseqPipelineWorkflowClientExternalFactory clientFactory = new RnaseqPipelineWorkflowClientExternalFactoryImpl(swfService, domain);
         RnaseqPipelineWorkflowClientExternal workflow = clientFactory.getClient(executionId);
 	System.out.println("about to call wf.rnaseqPipeline(1047-COPD.10K)");
-        workflow.rnaseqPipeline("1047-COPD.10K");
+        workflow.rnaseqPipeline(data_basename, dir);
         System.exit(0);
     }    
 }
