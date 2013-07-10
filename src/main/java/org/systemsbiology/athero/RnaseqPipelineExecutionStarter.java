@@ -14,7 +14,7 @@ public class RnaseqPipelineExecutionStarter {
     private static String domain;
     
     public static void main(String[] args) throws Exception {
-	String usage="prog <data_basename> <ref_index> <dir>";
+	String usage="<prog> <data_basename> <ref_index> <dir>";
 	if (args.length != 3) {
 	    System.out.println(usage);
 	    System.exit(1);

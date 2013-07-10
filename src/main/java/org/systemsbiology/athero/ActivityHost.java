@@ -82,13 +82,20 @@ public class ActivityHost {
 
     	RnaseqPipelineActivitiesImpl rnaseqPipelineImpl = new RnaseqPipelineActivitiesImpl();
 	PingActivitiesImpl pingActivitiesImpl = new PingActivitiesImpl();
+	SleepActivitiesImpl sleepActivitiesImpl = new SleepActivitiesImpl();
 	executorForCommonTaskList=createExecutor(commonTaskList, 
-						 pingActivitiesImpl, rnaseqPipelineImpl);
-
+						 pingActivitiesImpl, 
+						 sleepActivitiesImpl,
+						 rnaseqPipelineImpl);
+	System.out.println("listening on common task list "+commonTaskList);
     	
     	// Start executor to poll the host specific task list
-    	executorForHostSpecificTaskList = createExecutor(getHostName(), rnaseqPipelineImpl);
+    	executorForHostSpecificTaskList = createExecutor(getHostName(), 
+							 sleepActivitiesImpl,
+							 pingActivitiesImpl,
+							 rnaseqPipelineImpl);
     	executorForHostSpecificTaskList.start();
+	System.out.println("listening on host task list "+getHostName());
     }
     
     private ActivityWorker createExecutor(String taskList, Object ...activityImplementations) throws Exception{        
