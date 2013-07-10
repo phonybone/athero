@@ -44,15 +44,15 @@ public class RnaseqPipelineWorkflowImpl implements RnaseqPipelineWorkflow {
 
 		// Call rnaseq_count.py
 		if (taskList.isReady()) {
-		    System.out.println("rpwi: about to call rnaseq_count on tasklist="+taskList.get());
+		    System.out.println("rpwi: tasklist="+taskList.get());
 		    ActivitySchedulingOptions options = new ActivitySchedulingOptions();
 		    options.withTaskList(taskList.get());
 		    
-		    // THIS IS WRONG
-		    Promise<Void> done=rp_ac.call_rnaseq_count("inputFilename", "ucsc2ll", dir, options);
-		    System.out.println("rpwi: done");
+		    // including tasklist as an arg to force asynch calls...?
+		    Promise<Void> done=rp_ac.call_rnaseq_count(data_basename, dir, options, taskList);
+		
 		} else {
-		    System.out.println("taskList not yet ready");
+		    System.out.println("rpwi: tasklist not yet ready");
 		}
 		
 		System.out.println("doTry() complete");

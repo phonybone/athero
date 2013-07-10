@@ -21,7 +21,8 @@ public class WorkflowHost {
     private static WorkflowHost host;
 
     // Factory method for Workflow worker
-    public synchronized static WorkflowHost getWorkflowWorker() {
+    // Why the fuck was this originally (in the AWS source) called "getWorkflowWorker()"???  
+    public synchronized static WorkflowHost getWorkflowHost() {
         if (host == null) {
             host = new WorkflowHost();
         }
@@ -32,7 +33,7 @@ public class WorkflowHost {
     	ConfigHelper configHelper = loadConfiguration();
     	
         // Start Activity Executor Service
-        getWorkflowWorker().startDecisionExecutor(configHelper);
+        getWorkflowHost().startDecisionExecutor(configHelper);
 
         // Add a Shutdown hook to close ActivityExecutorService
         addShutDownHook();
@@ -59,8 +60,9 @@ public class WorkflowHost {
 
         String taskList = configHelper.getValueFromConfig(ImageProcessingConfigKeys.WORKFLOW_WORKER_TASKLIST);
         executor = new WorkflowWorker(swfService, domain, taskList); // WorkflowWorker defined in aws-java-sdk.jar
-        executor.addWorkflowImplementationType(PingWorkflowImpl.class);
-        executor.addWorkflowImplementationType(RnaseqPipelineWorkflowImpl.class);
+	//        executor.addWorkflowImplementationType(PingWorkflowImpl.class);
+	//        executor.addWorkflowImplementationType(RnaseqPipelineWorkflowImpl.class);
+        executor.addWorkflowImplementationType(SleepWorkflowImpl.class);
         
         // Start Executor Service
         executor.start();
@@ -92,7 +94,7 @@ public class WorkflowHost {
 
             public void run() {
                 try {
-                    getWorkflowWorker().stopHost();
+                    getWorkflowHost().stopHost();
                 }
                 catch (InterruptedException e) {
                     e.printStackTrace();

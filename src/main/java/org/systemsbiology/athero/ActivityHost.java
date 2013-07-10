@@ -82,8 +82,11 @@ public class ActivityHost {
 
     	RnaseqPipelineActivitiesImpl rnaseqPipelineImpl = new RnaseqPipelineActivitiesImpl();
 	PingActivitiesImpl pingActivitiesImpl = new PingActivitiesImpl();
+	SleepActivitiesImpl sleepActivitiesImpl = new SleepActivitiesImpl();
 	executorForCommonTaskList=createExecutor(commonTaskList, 
-						 pingActivitiesImpl, rnaseqPipelineImpl);
+						 pingActivitiesImpl, 
+						 sleepActivitiesImpl,
+						 rnaseqPipelineImpl);
 
     	
     	// Start executor to poll the host specific task list

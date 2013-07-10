@@ -6,23 +6,15 @@ import com.amazonaws.services.simpleworkflow.AmazonSimpleWorkflow;
 import org.systemsbiology.common.ConfigHelper;
 
 /**
- * This is used for launching a Workflow instance of RnaseqPipeline
+ * This is used for launching a Workflow instance of the Sleep wf
  */
-public class RnaseqPipelineExecutionStarter {
+public class SleepExecutionStarter {
     
     private static AmazonSimpleWorkflow swfService;
     private static String domain;
     
     public static void main(String[] args) throws Exception {
-	String usage="<prog> <data_basename> <ref_index> <dir>";
-	if (args.length != 3) {
-	    System.out.println(usage);
-	    System.exit(1);
-	}
-	String data_basename=args[0];
-	String ref_index=args[1];
-	String dir=args[2];
-
+    	
     	// Load configuration
     	ConfigHelper configHelper = ConfigHelper.createConfig();
         
@@ -32,15 +24,13 @@ public class RnaseqPipelineExecutionStarter {
         
         // Start Workflow instance
         String executionId = configHelper.getValueFromConfig(ImageProcessingConfigKeys.WORKFLOW_EXECUTION_ID_KEY) + UUID.randomUUID();
-
-	/* Removed a bunch of constant look-ups (having to do with bucket and source file names)
-	   from the config */
+	System.out.println("executionId: "+executionId);
 
 	// Create workflow via call to factory:
-        RnaseqPipelineWorkflowClientExternalFactory clientFactory = new RnaseqPipelineWorkflowClientExternalFactoryImpl(swfService, domain);
-        RnaseqPipelineWorkflowClientExternal workflow = clientFactory.getClient(executionId);
-	System.out.println("about to call wf.rnaseqPipeline()");
-        workflow.rnaseqPipeline(data_basename, ref_index, dir);
+        SleepWorkflowClientExternalFactory clientFactory = new SleepWorkflowClientExternalFactoryImpl(swfService, domain);
+        SleepWorkflowClientExternal workflow = clientFactory.getClient(executionId);
+	System.out.println("about to launch wf.sleep()");
+        workflow.sleep();
         System.exit(0);
     }    
 }

@@ -34,7 +34,6 @@ import com.amazonaws.services.simpleworkflow.flow.common.FlowConstants;
 			  initialRetryIntervalSeconds=10,
 			  backoffCoefficient=1,
 			  maximumAttempts=5)
-	    public void call_rnaseq_count(final String inputFileName,
-					  final String ucsc2ll,
+	    public void call_rnaseq_count(final String data_basename,
 					  final String dir) throws IOException;
     }

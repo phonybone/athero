@@ -33,6 +33,6 @@ import com.amazonaws.services.simpleworkflow.flow.common.FlowConstants;
 			  initialRetryIntervalSeconds=10,
 			  backoffCoefficient=1,
 			  maximumAttempts=5)
-	    public void call_sleep2(final String msg, 
-				    final int n_secs) throws IOException;
+	    public void call_sleep2(String msg, 
+				    int n_secs) throws IOException;
     }
