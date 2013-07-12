@@ -19,9 +19,6 @@ public class SleepWorkflowImpl implements SleepWorkflow {
 	// Create activity clients
 	sleep_ac = new SleepActivitiesClientImpl(); 
 
-	// This is now obsolete, but not deleting it yet.  
-	// Was used to determine a filename.
-	// todo: look up DecisionContext and WorkflowContext
 	workflowContext = (new DecisionContextProviderImpl()).getDecisionContext().getWorkflowContext();
 	System.out.println("sleep_wfimpl tasklist: "+workflowContext.getTaskList());
 	System.out.println("sleep_wfimpl execution id: "+workflowContext.getWorkflowExecution().getWorkflowId());
@@ -37,5 +34,11 @@ public class SleepWorkflowImpl implements SleepWorkflow {
 
 	System.out.println("calling sleep1");
 	sleep_ac.call_sleep2("this is the second message", 3, ac_tl);
+    }
+
+    @Asynchronous
+	public Promise<Void> printPromise(Promise<String> p) {
+	System.out.println("promise: "+p.get());
+	return new Promise<Void>;
     }
 }
