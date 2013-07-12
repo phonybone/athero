@@ -71,8 +71,10 @@ public class RnaseqPipelineWorkflowImpl implements RnaseqPipelineWorkflow {
         };
     }
 
+
     /*
     @Override
+    // Ping version
 	public void rnaseqPipeline(final String data_basename) throws IOException {
 	new TryFinally() {
 	    @Override

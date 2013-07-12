@@ -19,7 +19,6 @@ import com.amazonaws.services.simpleworkflow.flow.common.FlowConstants;
 			     defaultTaskScheduleToStartTimeoutSeconds = FlowConstants.NONE, 
 			     defaultTaskStartToCloseTimeoutSeconds = 300)
     public interface RnaseqPipelineActivities {
-
 	@Activity(name = "bowtie2", version = "1.0")
 	@ExponentialRetry(
 			  initialRetryIntervalSeconds=10,

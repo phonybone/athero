@@ -4,6 +4,7 @@ import java.io.*;
 import java.io.IOException;
 
 import org.systemsbiology.athero.Bowtie2Launcher;
+import org.systemsbiology.athero.Host;
 
 public class RnaseqPipelineActivitiesImpl implements RnaseqPipelineActivities{
 	
