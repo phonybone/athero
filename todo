@@ -1,3 +1,15 @@
+5Jul13:
+Need to rework RnaseqPipelineWorkflowImpl; call to call_rnaseq_count
+is totally messed, we're probably going to need more arguments in the
+workflow constructor, or maybe do some filename manipulation.
+
+Need to read up on @Asynchronous methods in SWF; experiement with the
+SleepWorkflow, starting with adding a Promise<> arg to call_sleep2().
+There should be a generated method that accepts an arbitrary list of
+promises.
+
+
+
 figure out how to package mvn-run as a self-contained script (ie,
 package all jars together and set classpath) (or run from a web
 server) 

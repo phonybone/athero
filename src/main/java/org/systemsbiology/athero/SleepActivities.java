@@ -18,23 +18,21 @@ import com.amazonaws.services.simpleworkflow.flow.common.FlowConstants;
 			     defaultTaskScheduleToCloseTimeoutSeconds = 300, 
 			     defaultTaskScheduleToStartTimeoutSeconds = FlowConstants.NONE, 
 			     defaultTaskStartToCloseTimeoutSeconds = 300)
-    public interface RnaseqPipelineActivities {
+    public interface SleepActivities {
 
-	@Activity(name = "bowtie2", version = "1.0")
+	@Activity(name = "sleep1", version = "1.0")
 	@ExponentialRetry(
 			  initialRetryIntervalSeconds=10,
 			  backoffCoefficient=1,
 			  maximumAttempts=5)
-
-	    public String call_bowtie2(final String data_basename,
-				       final String bt2_index,
-				       final String dir) throws IOException;
+	    public String call_sleep1(final String msg,
+				      final int n_secs) throws IOException;
 	
-	@Activity(name = "rnaseq_count.py", version = "1.0")
+	@Activity(name = "sleep2", version = "1.0")
 	@ExponentialRetry(
 			  initialRetryIntervalSeconds=10,
 			  backoffCoefficient=1,
 			  maximumAttempts=5)
-	    public void call_rnaseq_count(final String data_basename,
-					  final String dir) throws IOException;
+	    public void call_sleep2(String msg, 
+				    int n_secs) throws IOException;
     }

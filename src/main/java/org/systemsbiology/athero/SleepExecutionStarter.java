@@ -4,15 +4,18 @@ import java.util.UUID;
 
 import com.amazonaws.services.simpleworkflow.AmazonSimpleWorkflow;
 import org.systemsbiology.common.ConfigHelper;
+import org.apache.log4j.Logger;
 
 /**
- * This is used for launching a Workflow instance of RnaseqPipeline
+ * This is used for launching a Workflow instance of the Sleep wf
  */
-public class WorkflowExecutionStarter {
+public class SleepExecutionStarter {
     
     private static AmazonSimpleWorkflow swfService;
     private static String domain;
-    
+    static String classname=SleepExecutionStarter.class.getName();
+    static Logger log=Logger.getLogger(SleepExecutionStarter.class.getName());
+
     public static void main(String[] args) throws Exception {
     	
     	// Load configuration
@@ -24,14 +27,12 @@ public class WorkflowExecutionStarter {
         
         // Start Workflow instance
         String executionId = configHelper.getValueFromConfig(ImageProcessingConfigKeys.WORKFLOW_EXECUTION_ID_KEY) + UUID.randomUUID();
-
-	/* Removed a bunch of constant look-ups from the config */
+	System.out.println("executionId: "+executionId);
 
 	// Create workflow via call to factory:
-        RnaseqPipelineWorkflowClientExternalFactory clientFactory = new RnaseqPipelineWorkflowClientExternalFactoryImpl(swfService, domain);
-        RnaseqPipelineWorkflowClientExternal workflow = clientFactory.getClient(executionId);
-	System.out.println("about to call wf.rnaseqPipeline(1047-COPD.10K)");
-        workflow.rnaseqPipeline("1047-COPD.10K");
+        SleepWorkflowClientExternalFactory clientFactory = new SleepWorkflowClientExternalFactoryImpl(swfService, domain);
+        SleepWorkflowClientExternal workflow = clientFactory.getClient(executionId);
+        workflow.sleep();
         System.exit(0);
     }    
 }

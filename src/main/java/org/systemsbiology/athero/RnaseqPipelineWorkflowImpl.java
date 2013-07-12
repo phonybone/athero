@@ -9,7 +9,7 @@ import com.amazonaws.services.simpleworkflow.flow.WorkflowContext;
 import com.amazonaws.services.simpleworkflow.flow.annotations.Asynchronous;
 import com.amazonaws.services.simpleworkflow.flow.core.Promise;
 import com.amazonaws.services.simpleworkflow.flow.core.Settable;
-import com.amazonaws.services.simpleworkflow.flow.core.TryFinally;
+import com.amazonaws.services.simpleworkflow.flow.core.TryCatchFinally;
 
 public class RnaseqPipelineWorkflowImpl implements RnaseqPipelineWorkflow {
     private final RnaseqPipelineActivitiesClient rp_ac;
@@ -27,41 +27,49 @@ public class RnaseqPipelineWorkflowImpl implements RnaseqPipelineWorkflow {
     }
 	
 
-
     @Override
-	public void rnaseqPipeline(final String data_basename) throws IOException {    	
+	public void rnaseqPipeline(final String data_basename,
+				   final String bt2_index,
+				   final String dir) throws IOException {    	
     	// Settable to store the worker specific task list returned by the activity
     	final Settable<String> taskList = new Settable<String>();
 
-    	// construct input filename?
-    	
-    	new TryFinally() {
+    	new TryCatchFinally() {
             @Override
 		protected void doTry() throws Throwable {
 		// Call bowtie2
-		System.out.println("rpwi: about to call bowtie2");
-		Promise<String> activityWorkerTasklist=rp_ac.call_bowtie2(data_basename, "hg_id");
-		taskList.chain(activityWorkerTasklist);
-		System.out.println("rpwi: about to call rnaseq_count");
+		System.out.println("rpwi: about to call call_bowtie2");
+		Promise<String> ac_tl=rp_ac.call_bowtie2(data_basename, bt2_index, dir);
+		taskList.chain(ac_tl);
 
 		// Call rnaseq_count.py
-		/*
-		  Going to need to set the options structure, make sure activity hosts
-		  are listening on local taskList...
-
 		if (taskList.isReady()) {
-		    rp_ac.call_rnaseq_count("inputFilename", "ucsc2ll");
-		    System.out.println("rpwi: done");
+		    System.out.println("rpwi: tasklist="+taskList.get());
+		    ActivitySchedulingOptions options = new ActivitySchedulingOptions();
+		    options.withTaskList(taskList.get());
+		    
+		    // including tasklist as an arg to force asynch calls...?
+		    Promise<Void> done=rp_ac.call_rnaseq_count(data_basename, dir, options, taskList);
+		
+		} else {
+		    System.out.println("rpwi: tasklist not yet ready");
 		}
-		*/
+		
+		System.out.println("doTry() complete");
             }
+
+	    @Override
+		protected void doCatch(Throwable t) {
+		System.out.println(t.getMessage());
+		t.printStackTrace();
+	    }
 
             @Override
 		protected void doFinally() throws Throwable {
+		System.out.println("doFinally cleaning up (no-op)");
             }
         };
     }
-
 
     /*
     @Override
