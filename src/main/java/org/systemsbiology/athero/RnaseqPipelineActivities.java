@@ -19,11 +19,13 @@ import com.amazonaws.services.simpleworkflow.flow.common.FlowConstants;
 			     defaultTaskScheduleToStartTimeoutSeconds = FlowConstants.NONE, 
 			     defaultTaskStartToCloseTimeoutSeconds = 300)
     public interface RnaseqPipelineActivities {
+
 	@Activity(name = "bowtie2", version = "1.0")
 	@ExponentialRetry(
 			  initialRetryIntervalSeconds=10,
 			  backoffCoefficient=1,
 			  maximumAttempts=5)
+
 	    public String call_bowtie2(final String data_basename,
 				       final String bt2_index,
 				       final String dir) throws IOException;

@@ -61,8 +61,8 @@ public class WorkflowHost {
         String taskList = configHelper.getValueFromConfig(ImageProcessingConfigKeys.WORKFLOW_WORKER_TASKLIST);
 	System.out.println("Workflow task list: "+taskList);
         executor = new WorkflowWorker(swfService, domain, taskList); // WorkflowWorker defined in aws-java-sdk.jar
-	executor.addWorkflowImplementationType(PingWorkflowImpl.class);
-	executor.addWorkflowImplementationType(RnaseqPipelineWorkflowImpl.class);
+	//        executor.addWorkflowImplementationType(PingWorkflowImpl.class);
+	//        executor.addWorkflowImplementationType(RnaseqPipelineWorkflowImpl.class);
         executor.addWorkflowImplementationType(SleepWorkflowImpl.class);
         
         // Start Executor Service

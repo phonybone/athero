@@ -20,9 +20,6 @@ public class SleepWorkflowImpl implements SleepWorkflow {
 	// Create activity clients
 	sleep_ac = new SleepActivitiesClientImpl(); 
 
-	// This is now obsolete, but not deleting it yet.  
-	// Was used to determine a filename.
-	// todo: look up DecisionContext and WorkflowContext
 	workflowContext = (new DecisionContextProviderImpl()).getDecisionContext().getWorkflowContext();
 	System.out.println("sleep_wfimpl tasklist: "+workflowContext.getTaskList());
 	System.out.println("sleep_wfimpl execution id: "+workflowContext.getWorkflowExecution().getWorkflowId());
@@ -32,36 +29,14 @@ public class SleepWorkflowImpl implements SleepWorkflow {
 
     @Override
 	public void sleep() throws IOException {    	
-	System.out.println("swfi: sleep entered");
-    	// Settable to store the worker specific task list returned by the activity
-    	final Settable<String> taskList = new Settable<String>();
 
-    	new TryCatchFinally() {
-            @Override
-		protected void doTry() throws Throwable {
-		// Call sleep1
-		System.out.println("swfi: about to call sleep1");
-		//String ac_tl=sleep_ac.call_sleep1("sleep for 3 seconds", 3);
-		Promise<String> ac_tl=sleep_ac.call_sleep1("sleep for 3 seconds", 3);
-		taskList.chain(ac_tl);
+	System.out.println("calling sleep1");
+	Promise<String> ac_tl=sleep_ac.call_sleep1("sleep for 3 seconds", 3);
 
-		// Call sleep2
-		Promise<Void> done=call_sleep2("sleep for 5 seconds", 5, taskList);
-		System.out.println("swfi: doTry() complete");
-            }
-
-	    @Override
-		protected void doCatch(Throwable t) {
-		System.out.println("oh crap: "+t.getMessage());
-		//		t.printStackTrace();
-	    }
-
-            @Override
-		protected void doFinally() throws Throwable {
-		System.out.println("swfi: doFinally cleaning up (no-op)");
-            }
-        };
+	System.out.println("calling sleep1");
+	sleep_ac.call_sleep2("this is the second message", 3, ac_tl);
     }
+
 
     @Asynchronous
 	protected Promise<Void> call_sleep2(final String msg, int n_secs, Promise<String> taskList) {
