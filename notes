@@ -1,0 +1,16 @@
+bug fixes:
+
+If you change any of the signatures of a workflow or activities
+interface, you also have to change the version number.  Otherwise you
+get a "incompatible changes" exception.  
+
+WF methods that use promises need to go in 
+@Asynchronous private methods(Promise<whatever>).
+
+Make absolutely sure that hosts are running up-to-date workers (both
+workflow and activity).
+
+It's better to specify all the timeouts during registration at the
+console.  If you run an unregistered activity (or wf), it'll get the
+tasklist used as a default.  This can be bad if it was a host-specific
+asklist.  Don't forget NO_DEFAULT_TASK_LIST.

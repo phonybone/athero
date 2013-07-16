@@ -11,7 +11,6 @@ import org.systemsbiology.common.ConfigHelper;
 
 import org.apache.log4j.Logger;
 
-
 /**
  * This is the process which hosts all SWF Deciders and Activities specified in this package
  */
@@ -22,7 +21,7 @@ public class WorkflowHost {
     private static WorkflowWorker executor;
     private static WorkflowHost host;
 
-    private final Logger log=Logger.getLogger(WorkflowHost.class.getName());
+    private static final Logger log=Logger.getLogger(WorkflowHost.class.getName());
 
     // Factory method for Workflow worker
     // Why the fuck was this originally (in the AWS source) called "getWorkflowWorker()"???  

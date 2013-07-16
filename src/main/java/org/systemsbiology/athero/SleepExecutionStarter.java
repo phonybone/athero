@@ -26,12 +26,12 @@ public class SleepExecutionStarter {
         
         // Start Workflow instance
         String executionId = configHelper.getValueFromConfig(ImageProcessingConfigKeys.WORKFLOW_EXECUTION_ID_KEY) + UUID.randomUUID();
-	log.info("executionId: "+executionId);
+	log.debug("executionId: "+executionId);
 
 	// Create workflow via call to factory:
         SleepWorkflowClientExternalFactory clientFactory = new SleepWorkflowClientExternalFactoryImpl(swfService, domain);
         SleepWorkflowClientExternal workflow = clientFactory.getClient(executionId);
-	log.info("about to launch wf.sleep()");
+	log.debug("about to launch wf.sleep()");
         workflow.sleep();
         System.exit(0);
     }    

@@ -9,21 +9,21 @@ import org.apache.log4j.Logger;
 public class SleepActivitiesImpl implements SleepActivities {
 	
     public SleepActivitiesImpl() {
-	log.debug("creating SleepActivitiesImpl object");
     }
 
-    private final static Logger log=Logger.getLogger(SleepActivitiesImpl.class.getName());
+    private static final Logger log=Logger.getLogger(SleepActivitiesImpl.class.getName());
+
 
     @Override public String call_sleep1(final String msg, final int n_secs) {
-	System.out.println("sai: sleep 1! " + msg);
+	log.debug("sai: sleep 1! " + msg);
 	call_sleep(msg, n_secs);
 	String name=new Host().getLocalName();
-	System.out.println("sai: sleep1 returning "+name);
+	log.debug("sai: sleep1 returning "+name);
 	return name;
     }
 
     @Override public void call_sleep2(final String msg, final int n_secs) {
-	System.out.println("sai: sleep 2! " + msg);
+	log.debug("sai: sleep 2! " + msg);
 	call_sleep(msg, n_secs);
     }
 

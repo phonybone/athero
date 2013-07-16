@@ -12,6 +12,7 @@ import com.amazonaws.services.simpleworkflow.AmazonSimpleWorkflow;
 import com.amazonaws.services.simpleworkflow.flow.ActivityWorker;
 
 import org.systemsbiology.common.ConfigHelper;
+import org.apache.log4j.Logger;
 
 import org.apache.log4j.Logger;
 
@@ -80,17 +81,16 @@ public class ActivityHost {
 						 pingActivitiesImpl, 
 						 sleepActivitiesImpl,
 						 rnaseqPipelineImpl);
+    	executorForCommonTaskList.start();
 	log.debug("listening on common task list "+commonTaskList);
     	
     	// Start executor to poll the host specific task list
-	/*
     	executorForHostSpecificTaskList = createExecutor(getHostName(), 
 							 sleepActivitiesImpl,
 							 pingActivitiesImpl,
 							 rnaseqPipelineImpl);
     	executorForHostSpecificTaskList.start();
 	log.debug("listening on host task list "+getHostName());
-	*/
     }
     
     private ActivityWorker createExecutor(String taskList, Object ...activityImplementations) throws Exception{        

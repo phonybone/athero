@@ -29,7 +29,7 @@ import com.amazonaws.services.simpleworkflow.flow.common.FlowConstants;
 	    public String call_sleep1(final String msg,
 				      final int n_secs) throws IOException;
 	
-	@Activity(name = "sleep2", version = "1.002")
+	@Activity(name = "sleep2", version = "1.003")
 	@ExponentialRetry(
 			  initialRetryIntervalSeconds=10,
 			  backoffCoefficient=1,
