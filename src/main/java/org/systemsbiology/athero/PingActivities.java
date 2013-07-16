@@ -20,7 +20,7 @@ import com.amazonaws.services.simpleworkflow.flow.common.FlowConstants;
 			     defaultTaskStartToCloseTimeoutSeconds = 300)
     public interface PingActivities {
 	
-	@Activity(name = "ping", version = "1.0")
+	@Activity(name = "ping", version = "1.002")
 	@ExponentialRetry(
 			  initialRetryIntervalSeconds=10,
 			  backoffCoefficient=1,
