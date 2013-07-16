@@ -26,6 +26,7 @@ import com.amazonaws.services.simpleworkflow.AmazonSimpleWorkflow;
 import com.amazonaws.services.simpleworkflow.flow.ActivityWorker;
 
 import org.systemsbiology.common.ConfigHelper;
+import org.apache.log4j.Logger;
 
 /**
  * This is the process which hosts all Activities in this sample
@@ -37,14 +38,16 @@ public class ActivityHost {
     
     private static ActivityWorker executorForCommonTaskList;
     private static ActivityWorker executorForHostSpecificTaskList;
-    private static ActivityHost activityWorker;
+    private static ActivityHost activityHost;
+
+    private static final Logger log=Logger.getLogger(ActivityHost.class.getName());
 
     // ActivityWorker Factory method
-    public synchronized static ActivityHost getActivityWorker() {
-        if (activityWorker == null) {
-            activityWorker = new ActivityHost();
+    public synchronized static ActivityHost getActivityHost() {
+        if (activityHost == null) {
+            activityHost = new ActivityHost();
         }
-        return activityWorker;
+        return activityHost;
     }
 
     public static void main(String[] args) throws Exception {
@@ -52,7 +55,7 @@ public class ActivityHost {
     	ConfigHelper configHelper = loadConfig();
 
         // Start Activity Executor Services
-        getActivityWorker().startExecutors(configHelper);
+        getActivityHost().startExecutors(configHelper);
                         
         // Add a Shutdown hook to close ActivityExecutorService
         addShutDownHook();
@@ -87,7 +90,8 @@ public class ActivityHost {
 						 pingActivitiesImpl, 
 						 sleepActivitiesImpl,
 						 rnaseqPipelineImpl);
-	System.out.println("listening on common task list "+commonTaskList);
+    	executorForCommonTaskList.start();
+	log.debug("listening on common task list "+commonTaskList);
     	
     	// Start executor to poll the host specific task list
     	executorForHostSpecificTaskList = createExecutor(getHostName(), 
@@ -95,11 +99,11 @@ public class ActivityHost {
 							 pingActivitiesImpl,
 							 rnaseqPipelineImpl);
     	executorForHostSpecificTaskList.start();
-	System.out.println("listening on host task list "+getHostName());
+	log.debug("listening on host task list "+getHostName());
     }
     
     private ActivityWorker createExecutor(String taskList, Object ...activityImplementations) throws Exception{        
-	System.out.println("Creating ActivityExecutor for tasklist "+taskList);
+	log.debug("Creating ActivityExecutor for tasklist "+taskList);
         ActivityWorker worker = new ActivityWorker(swfService, domain, taskList);
     	for (Object activityImplementation: activityImplementations) {
     	    worker.addActivitiesImplementation(activityImplementation);
@@ -109,12 +113,12 @@ public class ActivityHost {
     }
 
     private void stopExecutors() throws InterruptedException {
-        System.out.println("Stopping Executor Services...");
+        log.debug("Stopping Executor Services...");
         executorForCommonTaskList.shutdownNow();
         executorForHostSpecificTaskList.shutdownNow();
         swfService.shutdown();
         executorForCommonTaskList.awaitTermination(Long.MAX_VALUE, TimeUnit.DAYS); // that's a long time to wait
-        System.out.println("Executor Services Stopped...");
+        log.debug("Executor Services Stopped...");
     }
     
     
@@ -134,7 +138,7 @@ public class ActivityHost {
 
               public void run() {
                   try {
-                      getActivityWorker().stopExecutors();
+                      getActivityHost().stopExecutors();
                   }
                   catch (InterruptedException e) {
                       e.printStackTrace();

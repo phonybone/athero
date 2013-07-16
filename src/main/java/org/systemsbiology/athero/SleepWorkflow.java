@@ -27,6 +27,6 @@ import com.amazonaws.services.simpleworkflow.flow.annotations.WorkflowRegistrati
 @WorkflowRegistrationOptions(defaultExecutionStartToCloseTimeoutSeconds = 60, 
 			     defaultTaskStartToCloseTimeoutSeconds = 30)
 public interface SleepWorkflow {
-@Execute(name = "sleep_wf", version = "1.0")
+@Execute(name = "sleep_wf", version = "1.001")
     public void sleep() throws IOException;
 }

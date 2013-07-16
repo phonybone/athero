@@ -20,7 +20,7 @@ import com.amazonaws.services.simpleworkflow.flow.common.FlowConstants;
 			     defaultTaskStartToCloseTimeoutSeconds = 300)
     public interface SleepActivities {
 
-	@Activity(name = "sleep1", version = "1.0")
+	@Activity(name = "sleep1", version = "1.003")
 	@ExponentialRetry(
 			  initialRetryIntervalSeconds=10,
 			  backoffCoefficient=1,
@@ -28,7 +28,7 @@ import com.amazonaws.services.simpleworkflow.flow.common.FlowConstants;
 	    public String call_sleep1(final String msg,
 				      final int n_secs) throws IOException;
 	
-	@Activity(name = "sleep2", version = "1.0")
+	@Activity(name = "sleep2", version = "1.003")
 	@ExponentialRetry(
 			  initialRetryIntervalSeconds=10,
 			  backoffCoefficient=1,

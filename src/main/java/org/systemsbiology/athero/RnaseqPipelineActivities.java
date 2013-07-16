@@ -19,7 +19,7 @@ import com.amazonaws.services.simpleworkflow.flow.common.FlowConstants;
 			     defaultTaskScheduleToStartTimeoutSeconds = FlowConstants.NONE, 
 			     defaultTaskStartToCloseTimeoutSeconds = 300)
     public interface RnaseqPipelineActivities {
-	@Activity(name = "bowtie2", version = "1.0")
+	@Activity(name = "bowtie2", version = "1.002")
 	@ExponentialRetry(
 			  initialRetryIntervalSeconds=10,
 			  backoffCoefficient=1,
@@ -28,7 +28,7 @@ import com.amazonaws.services.simpleworkflow.flow.common.FlowConstants;
 				       final String bt2_index,
 				       final String dir) throws IOException;
 	
-	@Activity(name = "rnaseq_count.py", version = "1.0")
+	@Activity(name = "rnaseq_count.py", version = "1.002")
 	@ExponentialRetry(
 			  initialRetryIntervalSeconds=10,
 			  backoffCoefficient=1,

@@ -9,6 +9,7 @@ import com.amazonaws.services.simpleworkflow.AmazonSimpleWorkflow;
 import com.amazonaws.services.simpleworkflow.flow.WorkflowWorker;
 import org.systemsbiology.common.ConfigHelper;
 
+import org.apache.log4j.Logger;
 
 /**
  * This is the process which hosts all SWF Deciders and Activities specified in this package
@@ -19,6 +20,8 @@ public class WorkflowHost {
     private static String domain;
     private static WorkflowWorker executor;
     private static WorkflowHost host;
+
+    private static final Logger log=Logger.getLogger(WorkflowHost.class.getName());
 
     // Factory method for Workflow worker
     // Why the fuck was this originally (in the AWS source) called "getWorkflowWorker()"???  
@@ -56,10 +59,10 @@ public class WorkflowHost {
         
     /* Is this the decider? */
     private void startDecisionExecutor(ConfigHelper configHelper) throws Exception {
-        System.out.println("Starting Executor Host Service...");
+        log.debug("Starting Executor Host Service...");
 
         String taskList = configHelper.getValueFromConfig(ImageProcessingConfigKeys.WORKFLOW_WORKER_TASKLIST);
-	System.out.println("Workflow task list: "+taskList);
+	log.debug("Workflow task list: "+taskList);
         executor = new WorkflowWorker(swfService, domain, taskList); // WorkflowWorker defined in aws-java-sdk.jar
 	executor.addWorkflowImplementationType(PingWorkflowImpl.class);
 	executor.addWorkflowImplementationType(RnaseqPipelineWorkflowImpl.class);
@@ -68,15 +71,15 @@ public class WorkflowHost {
         // Start Executor Service
         executor.start();
 
-        System.out.println("Executor Host Service Started...");
+        log.debug("Executor Host Service Started...");
     }
 
     private void stopHost() throws InterruptedException {
-        System.out.println("Stopping Decision Executor Service...");
+        log.debug("Stopping Decision Executor Service...");
         executor.shutdownNow();
         swfService.shutdown();
         executor.awaitTermination(Long.MAX_VALUE, TimeUnit.DAYS);
-        System.out.println("Decision Executor Service Stopped...");
+        log.debug("Decision Executor Service Stopped...");
     }
     
     static ConfigHelper loadConfiguration() throws IllegalArgumentException, IOException{
