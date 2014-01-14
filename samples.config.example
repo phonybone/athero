@@ -2,14 +2,14 @@
 service.url=http://swf.us-east-1.amazonaws.com
 
 ####### CREDENTIALS FOR SWF #######
-AWS.Access.ID=AKIAIG3LEBOMZCSASPBA
-AWS.Secret.Key=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
-AWS.Account.ID=6693-5772-8007
+AWS.Access.ID=
+AWS.Secret.Key=
+AWS.Account.ID=
 
 ####### CREDENTIALS FOR S3 #######
-S3.Access.ID=AKIAIG3LEBOMZCSASPBA
-S3.Secret.Key=/xcMuaMPTck/ezvOskqnDEoAtQyZdicy5QpMkY+O
-S3.Account.ID=6693-5772-8007
+S3.Access.ID=
+S3.Secret.Key=
+S3.Account.ID=
 
 ######## COMMON CONFIG ###########
 domain=Samples

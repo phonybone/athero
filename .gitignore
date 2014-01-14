@@ -6,3 +6,5 @@ out.*
 .#*
 scrap
 *.log
+*.config
+*.conf
